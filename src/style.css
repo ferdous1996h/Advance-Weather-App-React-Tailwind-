@@ -1,0 +1,26 @@
+/* In CSS, @import url(...) must come before any other imports/rules except @charset. */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import 'tailwindcss';
+@theme {
+  --color-Neutral_900: hsl(243, 96%, 9%);
+  --color-Neutral_800: hsl(243, 27%, 20%);
+  --color-Neutral_700: hsl(243, 23%, 24%);
+  --color-Neutral_600: hsl(243, 23%, 30%);
+  --color-Neutral_300: hsl(240, 6%, 70%);
+  --color-Neutral_200: hsl(250, 6%, 84%);
+  --color-Neutral_0: hsl(0, 0%, 100%);
+  --color-Orange: hsl(28, 100%, 52%);
+  --color-Blue_500: hsl(233, 67%, 56%);
+  --color-Blue_700: hsl(248, 70%, 36%);
+
+  /* Font Family */
+  --font-DM_Sans: 'DM Sans', sans-serif;
+  --font-Bricolage: 'Bricolage Grotesque', sans-serif;
+  /* Base Font Size */
+  --text-baseSize: 18px;
+
+  /* Background Image */
+  --background-image-tempMobile:url('./assets/images/bg-today-small.svg');
+  --background-image-tempDesktop:url('./assets/images/bg-today-large.svg')
+
+}
