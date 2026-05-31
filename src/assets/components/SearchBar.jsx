@@ -1,6 +1,8 @@
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment, useActionState } from 'react';
 import { geoWeatherInfo } from '../utils/geoWeatherInfo';
+import { DNA } from 'react-loader-spinner';
 import locationICON from '../images/icons8-location.gif';
+import { HiH3 } from 'react-icons/hi2';
 export default function SearchBar({ handleCLKedLocation, setWeatherInfo }) {
   const [filteredName, setFilteredName] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
@@ -24,26 +26,33 @@ export default function SearchBar({ handleCLKedLocation, setWeatherInfo }) {
   }, [filteredName]);
 
   //Manually typed search
-  async function handleSearch(formData) {
-    const typePlace = formData.get('placeInput');
-    if (typePlace) setFilteredData(null);
-    const resPlace = await fetch(
-      `https://geocode.maps.co/search?q=${typePlace}&api_key=6a15e989622fb490703327ezsa1c2c2`
-    );
-    const dataPlace = await resPlace.json();
-    console.log(dataPlace);
-    const { lat, lon } = dataPlace[0];
-    async function finalFetchData(lat, long) {
-      try {
-        const response = await geoWeatherInfo(lat, long);
-        console.log(response);
-        setWeatherInfo(response);
-      } catch (err) {
-        console.error(err);
+  async function handleSearch(prevState, formData) {
+    try {
+      const typePlace = formData.get('placeInput');
+      const error = {};
+      if (typePlace) setFilteredData(null);
+      const resPlace = await fetch(
+        `https://geocode.maps.co/search?q=${typePlace}&api_key=6a15e989622fb490703327ezsa1c2c2`
+      );
+      if (!resPlace.ok) {
+        error.message = "This isn't any valid location name";
       }
+      const dataPlace = await resPlace.json();
+      if (dataPlace.length < 1) {
+        error.message = "This isn't any valid location name";
+      }
+      if (Object.keys(error).length > 0) {
+        return { success: true, message: error.message };
+      }
+      const { lat, lon } = dataPlace[0];
+      const response = await geoWeatherInfo(lat, lon);
+      setWeatherInfo(response);
+      return { success: true };
+    } catch (err) {
+      console.error(err);
     }
-    finalFetchData(lat, lon);
   }
+  const [state, formAction, isPending] = useActionState(handleSearch, null);
   return (
     <section className="text-center">
       <div className="min-h-[10em] flex items-center">
@@ -51,9 +60,21 @@ export default function SearchBar({ handleCLKedLocation, setWeatherInfo }) {
           How's the sky looking today?
         </h1>
       </div>
+      {isPending && (
+        <div className="flex justify-center">
+          <DNA
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="dna-loading"
+            wrapperStyle={{}}
+            wrapperClass="dna-wrapper"
+          />
+        </div>
+      )}
       <form
         className="pb-8 flex flex-col  justify-center gap-4 sm:flex-row"
-        action={handleSearch}
+        action={formAction}
       >
         <div className="relative">
           <input
@@ -63,6 +84,7 @@ export default function SearchBar({ handleCLKedLocation, setWeatherInfo }) {
             id="placeInputID"
             onChange={e => setFilteredName(e.target.value)}
           />
+
           {filteredData && (
             <section className="rounded-lg absolute top-full left-0 w-full bg-white text-black">
               {filteredData.map(ele => (
@@ -87,10 +109,14 @@ export default function SearchBar({ handleCLKedLocation, setWeatherInfo }) {
             </section>
           )}
         </div>
-        <button className="cursor-pointer rounded-lg py-2 px-3 bg-Blue_700" type="submit">
+        <button
+          className="cursor-pointer rounded-lg py-2 px-3 bg-Blue_700"
+          type="submit"
+        >
           Search
         </button>
       </form>
+      {state?.message && <p className="text-red-600 pb-4">⚠️ {state?.message}</p>}
     </section>
   );
 }
