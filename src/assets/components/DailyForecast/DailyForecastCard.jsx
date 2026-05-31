@@ -3,7 +3,7 @@ import SingleDailyCard from './SingleDailyCard';
 import { getDayName } from '../../utils/singleDay';
 export default function DailyForecastCards({ dailyData }) {
   return (
-    <section>
+    <section className='pt-8'>
       <h1>Daily forecast</h1>
       <section className='grid grid-cols-3 gap-2'>
         {Array.from({ length: 7 }).map((_, ind) => (

@@ -7,10 +7,9 @@ export default function SingleHour({ hourlyData, selectedDay }) {
   return (
     <>
       {hourlyData.time.map((day, ind) => {
-        // <div>{dayNameLong(day)}</div>;
         if (dayNameLong(day) === selectedDay) {
           return (
-            <div className="mt-2 flex justify-between items-center border-2 border-Neutral_200 rounded-lg px-2">
+            <div key={crypto.randomUUID()} className="hover:bg-Neutral_700 mt-2 flex justify-between items-center border-2 border-Neutral_200 rounded-lg px-2">
               <div className='flex items-center'>
                 <img
                   className="w-12"
