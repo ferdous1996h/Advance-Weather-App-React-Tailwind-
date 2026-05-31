@@ -1,6 +1,6 @@
 export default function DropDownNav({ handleSwitchUnit, switchWeather }) {
   return (
-    <section className="absolute bg-Neutral_800 w-[10em] right-0 top-full p-2 rounded-lg mt-1 text-base">
+    <section className="absolute bg-Neutral_800 w-[10.5em] right-0 top-full p-2 rounded-lg mt-1 text-base">
       <p className="hover:bg-Neutral_600 p-1 rounded-lg">
         {Object.keys(switchWeather).length < 3 ? (
           <span

@@ -5,7 +5,7 @@ export default function DailyForecastCards({ dailyData }) {
   return (
     <section className='pt-8'>
       <h1>Daily forecast</h1>
-      <section className='grid grid-cols-3 gap-2'>
+      <section className='grid grid-cols-3 gap-2 lg:grid-cols-7'>
         {Array.from({ length: 7 }).map((_, ind) => (
         <SingleDailyCard
           key={ind}
