@@ -27,7 +27,7 @@ async function reverseGeoLocation(lat, long) {
     return null;
   }
 }
-export async function geoWeatherInfo(lat,long) {
+export async function geoWeatherInfo(lat, long, switchData) {
   try {
     // const { lat, long } = await geolocation();
     const params = {
@@ -47,6 +47,7 @@ export async function geoWeatherInfo(lat,long) {
         'weather_code',
       ],
       timezone: 'auto',
+      ...switchData,
     };
     const url = 'https://api.open-meteo.com/v1/forecast';
     const responses = await fetchWeatherApi(url, params);

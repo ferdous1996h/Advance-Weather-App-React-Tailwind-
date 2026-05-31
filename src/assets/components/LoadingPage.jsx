@@ -1,5 +1,5 @@
 import { DNA } from 'react-loader-spinner';
-import Navbar from './Navbar';
+import Navbar from './NavBar/Navbar';
 export default function LoadingPage() {
   return (
     <main className="font-DM_Sans p-8 h-dvh bg-Neutral_900 text-baseSize text-neutral-50">
