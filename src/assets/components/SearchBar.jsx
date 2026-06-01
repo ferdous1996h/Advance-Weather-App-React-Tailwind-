@@ -28,7 +28,8 @@ export default function SearchBar({ handleCLKedLocation, setWeatherInfo }) {
   //Manually typed search
   async function handleSearch(prevState, formData) {
     try {
-      const typePlace = formData.get('placeInput');
+      const typePlace = formData.get('placeInput')?.toString().trim();
+      if (!typePlace) return { message: 'Please enter a location' };
       const error = {};
       if (typePlace) setFilteredData(null);
       const resPlace = await fetch(
@@ -42,17 +43,25 @@ export default function SearchBar({ handleCLKedLocation, setWeatherInfo }) {
         error.message = "This isn't any valid location name";
       }
       if (Object.keys(error).length > 0) {
-        return { success: true, message: error.message };
+        return { success: false, message: error.message };
       }
       const { lat, lon } = dataPlace[0];
       const response = await geoWeatherInfo(lat, lon);
-      setWeatherInfo(response);
-      return { success: true };
+      return { success: true, response };
     } catch (err) {
       console.error(err);
+      return { success: false, message: err.message || 'Something went wrong' };
     }
   }
-  const [state, formAction, isPending] = useActionState(handleSearch, null);
+  const [state, formAction, isPending] = useActionState(handleSearch, {
+    success: false,
+  });
+
+  useEffect(() => {
+    if (state.success && state?.response) {
+      setWeatherInfo(state.response);
+    }
+  }, [state, setWeatherInfo]);
   return (
     <section className="text-center">
       <div className="min-h-[10em] flex items-center">
@@ -116,7 +125,9 @@ export default function SearchBar({ handleCLKedLocation, setWeatherInfo }) {
           Search
         </button>
       </form>
-      {state?.message && <p className="text-red-600 pb-4">⚠️ {state?.message}</p>}
+      {state?.message && (
+        <p className="text-red-600 pb-4">⚠️ {state?.message}!</p>
+      )}
     </section>
   );
 }

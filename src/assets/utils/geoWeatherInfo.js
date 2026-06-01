@@ -29,13 +29,11 @@ async function reverseGeoLocation(lat, long) {
 }
 export async function geoWeatherInfo(lat, long, switchData) {
   try {
-    // const { lat, long } = await geolocation();
+    const { lat: GPSlat, long: GPSlong } = await geolocation();
+
     const params = {
-      latitude: lat,
-      longitude: long,
-      // Will change this later
-      // latitude: lat,
-      // longitude: long,
+      latitude: lat || GPSlat,
+      longitude: long || GPSlong,
       daily: ['weather_code', 'temperature_2m_max', 'temperature_2m_min'],
       hourly: ['temperature_2m', 'weather_code'],
       current: [

@@ -11,6 +11,8 @@ export default function App() {
   function handleSwitchUnit(data) {
     setSwitchWeather(data);
   }
+  const newLat = weatherInfo?.reverseLocation?.latitude;
+  const newLon = weatherInfo?.reverseLocation?.longitude;
   useEffect(() => {
     async function finalFetchData(lat, long, switchData) {
       try {
@@ -21,7 +23,7 @@ export default function App() {
         console.error(err);
       }
     }
-    finalFetchData(44.2706, -71.3033, switchWeather);
+    finalFetchData(newLat, newLon, switchWeather);
   }, [switchWeather]);
   function handleCLKedLocation(data) {
     setWeatherInfo(null);
