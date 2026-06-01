@@ -27,8 +27,10 @@ export default function TempCard({ weatherInfo, switchWeather }) {
           <p>{currentDate}</p>
         </div>
         <div className="flex m-auto">
-          <img className="w-25" src={weatherFigures(weatherCode)} alt="" />
-          <h1 className="text-8xl font-extrabold">{currentTemp}°</h1>
+          <img className="w-25 self-center" src={weatherFigures(weatherCode)} alt="" />
+          <h1 className="text-8xl font-extrabold">
+            {currentTemp} {switchWeather?.temperature_unit ? '°F' : '°C'}
+          </h1>
         </div>
       </section>
       <section className="mt-5 pt-3 grid grid-cols-2 gap-2 auto-cols-[minmax(8em,15em)] gap-y-2 lg:grid-cols-4">

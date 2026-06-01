@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { geoWeatherInfo } from './assets/utils/geoWeatherInfo';
+import Retry from './assets/components/Retry';
 import LoadingPage from './assets/components/LoadingPage';
 import Navbar from './assets/components/NavBar/Navbar';
 import SearchBar from './assets/components/SearchBar';
@@ -8,6 +9,7 @@ import HourlyForecast from './assets/components/HourlyForecast/HourlyForecast';
 export default function App() {
   const [weatherInfo, setWeatherInfo] = useState(null);
   const [switchWeather, setSwitchWeather] = useState({});
+  const [error, setError] = useState(false);
   function handleSwitchUnit(data) {
     setSwitchWeather(data);
   }
@@ -21,10 +23,12 @@ export default function App() {
         setWeatherInfo(response);
       } catch (err) {
         console.error(err);
+        console.log(err);
+        setError(err);
       }
     }
     finalFetchData(newLat, newLon, switchWeather);
-  }, [switchWeather]);
+  }, [switchWeather, error === false]);
   function handleCLKedLocation(data) {
     setWeatherInfo(null);
     const { lat, long } = data;
@@ -40,6 +44,7 @@ export default function App() {
     finalFetchData(lat, long);
   }
 
+  if (error) return <Retry setError={setError} />;
   if (!weatherInfo) return <LoadingPage />;
   return (
     <main className="font-DM_Sans p-8 min-h-dvh bg-Neutral_900 text-baseSize text-neutral-50">
