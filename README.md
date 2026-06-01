@@ -39,12 +39,12 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [Add live site URL here]()
+- Live Site URL: [APP LINK](https://advance-weather-app-react-tailwind.vercel.app/)
 
 ## My process
 
 ### Built with
 
-[![Tech Stack](https://skillicons.dev/icons?i=html,js,react,tailwind,bun,vite)]
+![Tech Stack](https://skillicons.dev/icons?i=html,js,react,tailwind,bun,vite)
 
 ### What I learned
